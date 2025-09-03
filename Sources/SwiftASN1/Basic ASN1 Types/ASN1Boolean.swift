@@ -13,12 +13,9 @@
 //===----------------------------------------------------------------------===//
 
 extension Bool: DERImplicitlyTaggable, BERImplicitlyTaggable {
-    @inlinable
     public static var defaultIdentifier: ASN1Identifier {
         .boolean
     }
-
-    @inlinable
     public init(derEncoded node: ASN1Node, withIdentifier identifier: ASN1Identifier) throws {
         guard node.identifier == identifier else {
             throw ASN1Error.unexpectedFieldType(node.identifier)
@@ -40,8 +37,6 @@ extension Bool: DERImplicitlyTaggable, BERImplicitlyTaggable {
             throw ASN1Error.invalidASN1Object(reason: "Invalid byte for ASN1Bool: \(byte)")
         }
     }
-
-    @inlinable
     public init(berEncoded node: ASN1Node, withIdentifier identifier: ASN1Identifier) throws {
         guard node.identifier == identifier else {
             throw ASN1Error.unexpectedFieldType(node.identifier)
@@ -60,8 +55,6 @@ extension Bool: DERImplicitlyTaggable, BERImplicitlyTaggable {
             self = true
         }
     }
-
-    @inlinable
     public func serialize(into coder: inout DER.Serializer, withIdentifier identifier: ASN1Identifier) throws {
         coder.appendPrimitiveNode(identifier: identifier) { bytes in
             if self {

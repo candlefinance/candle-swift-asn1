@@ -14,10 +14,7 @@
 
 @available(*, unavailable)
 extension TimeUtilities: Sendable {}
-
-@usableFromInline
 enum TimeUtilities {
-    @inlinable
     static func generalizedTimeFromBytes(_ bytes: ArraySlice<UInt8>) throws -> GeneralizedTime {
         var bytes = bytes
 
@@ -67,8 +64,6 @@ enum TimeUtilities {
             rawFractionalSeconds: rawFractionalSeconds
         )
     }
-
-    @inlinable
     static func utcTimeFromBytes(_ bytes: ArraySlice<UInt8>) throws -> UTCTime {
         var bytes = bytes
 
@@ -111,8 +106,6 @@ enum TimeUtilities {
             seconds: rawSeconds
         )
     }
-
-    @inlinable
     static func daysInMonth(_ month: Int, ofYear year: Int) -> Int? {
         switch month {
         case 1:
@@ -150,7 +143,6 @@ enum TimeUtilities {
 }
 
 extension ArraySlice where Element == UInt8 {
-    @inlinable
     mutating func _readFourDigitDecimalInteger() -> Int? {
         guard let first = self._readTwoDigitDecimalInteger(),
             let second = self._readTwoDigitDecimalInteger()
@@ -162,8 +154,6 @@ extension ArraySlice where Element == UInt8 {
         // get any larger than 9999.
         return (first &* 100) &+ second
     }
-
-    @inlinable
     mutating func _readTwoDigitDecimalInteger() -> Int? {
         guard let firstASCII = self.popFirst(),
             let secondASCII = self.popFirst()
@@ -181,8 +171,6 @@ extension ArraySlice where Element == UInt8 {
         // possibly be smaller than zero or larger than 99.
         return (first &* 10) &+ (second)
     }
-
-    @inlinable
     mutating func _readRawFractionalSeconds() throws -> ArraySlice<UInt8> {
         guard let nonDecimalASCIIIndex = self.firstIndex(where: { Int(fromDecimalASCII: $0) == nil }) else {
             throw ASN1Error.invalidASN1Object(
@@ -202,8 +190,6 @@ extension ArraySlice where Element == UInt8 {
         self = self[nonDecimalASCIIIndex...]
         return rawFractionalSeconds
     }
-
-    @inlinable
     mutating func append(fractionalSeconds: Double) throws {
         // Fractional seconds may not be negative and may not be 1 or more.
         guard fractionalSeconds >= 0 && fractionalSeconds < 1 else {
@@ -224,7 +210,6 @@ extension ArraySlice where Element == UInt8 {
 }
 
 extension Array where Element == UInt8 {
-    @inlinable
     mutating func append(_ generalizedTime: GeneralizedTime) {
         self._appendFourDigitDecimal(generalizedTime.year)
         self._appendTwoDigitDecimal(generalizedTime.month)
@@ -240,8 +225,6 @@ extension Array where Element == UInt8 {
 
         self.append(UInt8(ascii: "Z"))
     }
-
-    @inlinable
     mutating func append(_ utcTime: UTCTime) {
         precondition((1950..<2050).contains(utcTime.year))
         if utcTime.year >= 2000 {
@@ -256,8 +239,6 @@ extension Array where Element == UInt8 {
         self._appendTwoDigitDecimal(utcTime.seconds)
         self.append(UInt8(ascii: "Z"))
     }
-
-    @inlinable
     mutating func _appendFourDigitDecimal(_ number: Int) {
         assert(number >= 0 && number <= 9999)
 
@@ -270,8 +251,6 @@ extension Array where Element == UInt8 {
         self.append(UInt8(truncatingIfNeeded: (number / 10) % 10) &+ asciiZero)
         self.append(UInt8(truncatingIfNeeded: number % 10) &+ asciiZero)
     }
-
-    @inlinable
     mutating func _appendTwoDigitDecimal(_ number: Int) {
         assert(number >= 0 && number <= 99)
 
@@ -285,7 +264,6 @@ extension Array where Element == UInt8 {
 }
 
 extension Int {
-    @inlinable
     init?(fromDecimalASCII ascii: UInt8) {
         let asciiZero = UInt8(ascii: "0")
         let zeroToNine = 0...9
@@ -302,7 +280,6 @@ extension Int {
 }
 
 extension Double {
-    @inlinable
     init(fromRawFractionalSeconds rawFractionalSeconds: ArraySlice<UInt8>) throws {
         if rawFractionalSeconds.count == 0 {
             self = 0

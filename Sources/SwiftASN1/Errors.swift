@@ -47,7 +47,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// The ASN.1 tag for the parsed field does not match the tag expected for the field.
-    @inline(never)
     public static func unexpectedFieldType(
         _ identifier: ASN1Identifier,
         file: String = #fileID,
@@ -65,7 +64,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
 
     /// The format of the parsed ASN.1 object does not match the format required for the data type
     /// being decoded.
-    @inline(never)
     public static func invalidASN1Object(
         reason: String,
         file: String = #fileID,
@@ -82,7 +80,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// An ASN.1 integer was decoded that does not use the minimum number of bytes for its encoding.
-    @inline(never)
     public static func invalidASN1IntegerEncoding(
         reason: String,
         file: String = #fileID,
@@ -99,7 +96,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// An ASN.1 field was truncated and could not be decoded.
-    @inline(never)
     public static func truncatedASN1Field(
         file: String = #fileID,
         line: UInt = #line
@@ -115,7 +111,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// The encoding used for the field length is not supported.
-    @inline(never)
     public static func unsupportedFieldLength(
         reason: String,
         file: String = #fileID,
@@ -132,7 +127,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// It was not possible to parse a string as a PEM document.
-    @inline(never)
     public static func invalidPEMDocument(
         reason: String,
         file: String = #fileID,
@@ -149,7 +143,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// A string was invalid.
-    @inline(never)
     public static func invalidStringRepresentation(
         reason: String,
         file: String = #fileID,
@@ -166,7 +159,6 @@ public struct ASN1Error: Error, Hashable, CustomStringConvertible {
     }
 
     /// Too few OID components were provided. There must be at least two or more.
-    @inline(never)
     public static func tooFewOIDComponents(
         reason: String,
         file: String = #fileID,
